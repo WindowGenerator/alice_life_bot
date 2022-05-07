@@ -11,6 +11,7 @@ lint:
 	$(CMD) black --check --diff $(SRC)
 
 format:
+	$(CMD) autoflake --recursive --remove-all-unused-imports  --remove-unused-variables $(SRC)
 	$(CMD) isort $(SRC)
 	$(CMD) black $(SRC)
 

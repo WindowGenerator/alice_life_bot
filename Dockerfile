@@ -78,6 +78,9 @@ FROM python-base as production
 ENV BOT_ENV=production
 COPY --from=builder-base $PYSETUP_PATH $PYSETUP_PATH
 
+RUN mkdir -p /opt/app
+ENV APP_DIR /opt/app
+
 WORKDIR $APP_DIR
 
 COPY src $APP_DIR/src/
