@@ -1,0 +1,5 @@
+poll = "Poll"
+back = "Back"
+next = "Next"
+cancel = "Cancel"
+help = "Help"

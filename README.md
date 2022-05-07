@@ -9,10 +9,10 @@ While the bot is considered purely for polling users in chat rooms for specializ
 - [x] Inject linters formatters + Makefile
 - [x] Implement ways to run and build the project, and describe them in README.md
 - [x] Write configs + main.py
-- [ ] Write a prototype with cli without a database
+- [x] Write a prototype with cli without a database
 - [ ] Separate business logic and interfaces to manage the application + Think about special cases 
 - [ ] Inject sqlite3
-- [ ] Replace commands with keyboard
+- [x] Replace commands with keyboard
 
 ## Development:
 

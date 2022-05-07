@@ -4,6 +4,9 @@ import json
 import logging.config
 import os
 
+DB_NAME = "./db/dev.db"
+
+
 with codecs.open(
     f"{os.path.dirname(__file__)}/logging.json", "r", encoding="utf-8-sig"
 ) as fd:

@@ -1,6 +1,7 @@
 import asyncio
 import logging
 import signal
+import sqlite3
 from typing import AsyncGenerator
 
 import aiohttp
@@ -9,9 +10,8 @@ from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiohttp.web import Application, run_app
 
 from src.bot import handlers
-from src.bot.logic.sender import Sender
-from src.config import configuration
-
+from src.config import DB_NAME, configuration
+from src.db.repository import UserInfo
 
 logger = logging.getLogger(__name__)
 logger.setLevel(configuration["logging_level"])
@@ -34,7 +34,7 @@ async def dispatcher_ctx(app: Application) -> AsyncGenerator:
 
     handlers.setup(app, dp)
 
-    task = loop.create_task(dp.start_polling(), name="bot task")
+    task = asyncio.create_task(dp.start_polling(), name="bot task")
 
     yield
 
@@ -43,6 +43,12 @@ async def dispatcher_ctx(app: Application) -> AsyncGenerator:
 
     task.cancel()
     await task
+
+
+async def db_ctx(app: Application) -> AsyncGenerator:
+    # conn = sqlite3.connect(DB_NAME)
+    app["repository"] = UserInfo(None)
+    yield
 
 
 def sig_handler(loop: asyncio.AbstractEventLoop, sig: str) -> None:
@@ -57,6 +63,7 @@ def main():
     loop.add_signal_handler(signal.SIGTERM, sig_handler, loop, "SIGTERM")
 
     app = Application()
+    app.cleanup_ctx.append(db_ctx)
     app.cleanup_ctx.append(bot_ctx)
     app.cleanup_ctx.append(dispatcher_ctx)
 
